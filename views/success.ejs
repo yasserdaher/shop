@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>تم الدفع بنجاح</title>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#111; color:#eee; text-align:center; padding: 50px; }
+  a.download-link {
+    background: #0ff;
+    color: #111;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  a.download-link:hover {
+    background: #00c;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+  <h1>تم الدفع بنجاح</h1>
+  <p>شكراً لشرائك: <strong><%= product.title %></strong></p>
+  <a class="download-link" href="/download/<%= product.id %>">اضغط هنا لتحميل المنتج</a>
+</body>
+</html>

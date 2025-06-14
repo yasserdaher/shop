@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>تعديل المنتج</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <h2>تعديل المنتج</h2>
+  <form method="POST" action="/admin/products/edit/<%= product.id %>">
+    <label>عنوان المنتج:</label>
+    <input type="text" name="title" value="<%= product.title %>" required />
+    <label>وصف المنتج:</label>
+    <textarea name="description" required><%= product.description %></textarea>
+    <label>السعر ($):</label>
+    <input type="number" step="0.01" name="price" value="<%= product.price %>" required />
+    <label>رابط صورة المنتج:</label>
+    <input type="text" name="image" value="<%= product.image %>" required />
+    <label>رابط تحميل المنتج:</label>
+    <input type="text" name="download_link" value="<%= product.download_link %>" required />
+    <button type="submit">تعديل</button>
+  </form>
+  <a href="/admin">عودة للوحة التحكم</a>
+</body>
+</html>

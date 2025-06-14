@@ -1,0 +1,76 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #ddd;
+  margin: 0; padding: 0;
+}
+a {
+  color: #0ff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+header, nav, main {
+  padding: 15px 20px;
+}
+nav a {
+  margin: 0 10px;
+  font-weight: bold;
+}
+button {
+  background-color: #0ff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #00c;
+  color: #fff;
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 12px 0;
+  border-radius: 5px;
+  border: none;
+  box-sizing: border-box;
+}
+form {
+  max-width: 500px;
+  margin: 20px auto;
+}
+.error {
+  color: #f33;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+table, th, td {
+  border: 1px solid #444;
+}
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+.login-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #222;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #0ff;
+  text-align: center;
+}

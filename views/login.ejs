@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>تسجيل دخول الأدمن</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>تسجيل دخول الأدمن</h2>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <form method="POST" action="/login">
+      <label>اسم المستخدم:</label>
+      <input type="text" name="username" required />
+      <label>كلمة المرور:</label>
+      <input type="password" name="password" required />
+      <button type="submit">دخول</button>
+    </form>
+  </div>
+</body>
+</html>

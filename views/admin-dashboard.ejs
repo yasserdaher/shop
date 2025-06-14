@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>لوحة تحكم الأدمن</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>مرحباً <%= admin.username %></h1>
+    <nav>
+      <a href="/admin/products/add">إضافة منتج جديد</a> |
+      <a href="/logout">تسجيل خروج</a> |
+      <a href="/">واجهة المتجر</a>
+    </nav>
+  </header>
+  <main>
+    <h2>إدارة المنتجات</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>العنوان</th>
+          <th>الوصف</th>
+          <th>السعر</th>
+          <th>صورة</th>
+          <th>رابط تحميل</th>
+          <th>إجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(product => { %>
+          <tr>
+            <td><%= product.title %></td>
+            <td><%= product.description %></td>
+            <td><%= product.price %> $</td>
+            <td><img src="<%= product.image %>" alt="صورة المنتج" width="80"/></td>
+            <td><a href="<%= product.download_link %>" target="_blank">تحميل</a></td>
+            <td>
+              <a href="/admin/products/edit/<%= product.id %>">تعديل</a> | 
+              <form style="display:inline;" method="POST" action="/admin/products/delete/<%= product.id %>">
+                <button type="submit" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
