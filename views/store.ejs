@@ -1,39 +1,129 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<title>متجر رقمي store</title>
-<link rel="stylesheet" href="/css/style.css" />
-<style>
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #111; color: #eee; margin:0; padding:0; }
-  header { background:#222; padding:10px 20px; text-align:center; font-size:24px; }
-  .products { display:flex; flex-wrap: wrap; justify-content: center; gap:20px; padding:20px; }
-  .product-card { background:#222; border-radius:10px; width:280px; box-shadow: 0 0 10px #0ff; padding:15px; transition: transform 0.3s ease; }
-  .product-card:hover { transform: rotateY(15deg) scale(1.05); box-shadow: 0 0 15px #0ff; }
-  .product-card img { width:100%; border-radius:8px; }
-  .product-card h3 { margin:10px 0 5px; }
-  .product-card p { font-size:14px; color:#bbb; min-height:50px; }
-  .product-card .price { font-size:18px; color:#0ff; margin:10px 0; }
-  .product-card button.buy-btn {
-    display: inline-block;
-    background: #0ff;
-    color: #7c5757;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
+  <meta charset="UTF-8" />
+  <title>متجر ضاهر رقمي store</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      overflow-x: hidden;
+      color: #222;
+    }
+
+    /* خلفية فقاعات فخمة */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 10% 20%, #e0f7ff, transparent 30%),
+                  radial-gradient(circle at 80% 30%, #d1ffe6, transparent 30%),
+                  radial-gradient(circle at 50% 70%, #ffe0f7, transparent 35%);
+      background-size: cover;
+      z-index: -2;
+      animation: floatBubbles 40s ease-in-out infinite;
+    }
+
+    /* نص داخل الفقاعات */
+    body::after {
+      content: "تحت  إدارة  شركة  ضاهر";
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-35%) scale(0.3);
+      font-size: 100px;
+      color: rgb(94, 94, 94);
+      font-weight: bold;
+      z-index: -1;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    @keyframes floatBubbles {
+      0% { background-position: 0 0; }
+      50% { background-position: 100px 200px; }
+      100% { background-position: 0 0; }
+    }
+
+  header {
+    background: linear-gradient(to right, #fdfbfb, #ebedee);
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 28px;
+    color: #b7950b;
     font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
-  .product-card button.buy-btn:hover {
-    background: #00c;
-    color: #fff;
-  }
-</style>
-<script src="https://js.stripe.com/v3/"></script>
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background: #aaf1f1;
+      border-radius: 16px;
+      width: 280px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05) rotateY(8deg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      color: #1a1a1a;
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: #555;
+      min-height: 50px;
+    }
+
+    .price {
+      font-size: 18px;
+      color: #0077cc;
+      margin: 10px 0;
+    }
+
+    .buy-btn {
+      background: #0077cc;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .buy-btn:hover {
+      background: #7ec0f0;
+    }
+  </style>
+
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <header>متجر ضاهر رقمي </header>
+  <header>متجر ضاهر رقمي</header>
   <main>
     <div class="products">
       <% products.forEach(product => { %>
@@ -42,40 +132,39 @@
           <h3><%= product.title %></h3>
           <p><%= product.description %></p>
           <div class="price"><%= product.price %> $</div>
-          <button class="buy-btn" data-product-id="<%= product.id %>">شراء الان</button>
+          <button class="buy-btn" data-product-id="<%= product.id %>">شراء الآن</button>
         </div>
       <% }); %>
     </div>
   </main>
 
-<script>
-  const stripe = Stripe('pk_test_51RT8oO4Fl0WramqBEk8Ld2ZVIe7Y3jVYLEPERP4AsOEqLdKDFFkFVChcyDe4VesgV84Wn8Gw9Stz682tIpy81BVA00BxY2WrL4');
+  <script>
+    const stripe = Stripe('pk_test_51RT8oO4Fl0WramqBEk8Ld2ZVIe7Y3jVYLEPERP4AsOEqLdKDFFkFVChcyDe4VesgV84Wn8Gw9Stz682tIpy81BVA00BxY2WrL4');
 
-  document.querySelectorAll('.buy-btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const productId = button.getAttribute('data-product-id');
-      fetch('/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          return stripe.redirectToCheckout({ sessionId: data.id });
-        }
-      })
-      .then(result => {
-        if (result && result.error) {
-          alert(result.error.message);
-        }
-      })
-      .catch(err => alert('��� ���: ' + err.message));
+    document.querySelectorAll('.buy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const productId = button.getAttribute('data-product-id');
+        fetch('/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            return stripe.redirectToCheckout({ sessionId: data.id });
+          }
+        })
+        .then(result => {
+          if (result && result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(err => alert('حدث خطأ: ' + err.message));
+      });
     });
-  });
-</script>
-
+  </script>
 </body>
 </html>
