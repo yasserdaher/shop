@@ -2,169 +2,433 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>متجر ضاهر رقمي store</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>متجر ضاهر الرقمي</title>
+  <script src="https://js.stripe.com/v3/"></script>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      overflow-x: hidden;
-      color: #222;
-    }
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
 
-    /* خلفية فقاعات فخمة */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at 10% 20%, #e0f7ff, transparent 30%),
-                  radial-gradient(circle at 80% 30%, #d1ffe6, transparent 30%),
-                  radial-gradient(circle at 50% 70%, #ffe0f7, transparent 35%);
-      background-size: cover;
-      z-index: -2;
-      animation: floatBubbles 40s ease-in-out infinite;
-    }
-
-    /* نص داخل الفقاعات */
-    body::after {
-      content: "تحت  إدارة  شركة  ضاهر";
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-35%) scale(0.3);
-      font-size: 100px;
-      color: rgb(94, 94, 94);
-      font-weight: bold;
-      z-index: -1;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-
-    @keyframes floatBubbles {
-      0% { background-position: 0 0; }
-      50% { background-position: 100px 200px; }
-      100% { background-position: 0 0; }
-    }
-
-  header {
-    background: linear-gradient(to right, #fdfbfb, #ebedee);
-    padding: 15px 20px;
-    text-align: center;
-    font-size: 28px;
-    color: #b7950b;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  :root {
+    --main-color: #111;
+    --accent-color: #ffb400;
+    --text-color: #eee;
+    --card-bg: #1a1a1a;
+    --hover-bg: #222;
+    --radius: 16px;
   }
 
-    .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 30px;
-    }
+  * {
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
 
+  body {
+    background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+    color: var(--text-color);
+    padding: 20px;
+  }
+
+  header {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255,180,0,0.3);
+  }
+
+  #searchInput {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 18px;
+    border: none;
+    border-radius: var(--radius);
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  #searchInput:focus {
+    background-color: #333;
+    box-shadow: 0 0 5px var(--accent-color);
+  }
+
+  #categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+    justify-content: center;
+  }
+
+  #categories button {
+    background-color: #222;
+    border: 2px solid transparent;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: var(--radius);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  #categories button.active,
+  #categories button:hover {
+    background-color: var(--accent-color);
+    color: #000;
+    font-weight: bold;
+  }
+
+  #productsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 10px;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: scale(1.03);
+    background-color: var(--hover-bg);
+  }
+
+  .product-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+  }
+
+  .product-card .description {
+    font-size: 15px;
+    color: #ccc;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    height: 60px;
+    overflow: hidden;
+  }
+
+  .rating {
+    color: gold;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  .buy-btn {
+    background: var(--accent-color);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: var(--radius);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .buy-btn:hover {
+    background-color: #ffc933;
+  }
+
+  .fav-btn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: red;
+  }
+
+  #scrollTopBtn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    background: var(--accent-color);
+    color: black;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+    z-index: 999;
+  }
+
+  #scrollTopBtn.show {
+    display: block;
+  }
+
+  #modalOverlay {
+    display: none;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #modalContent {
+    background: #222;
+    color: #fff;
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 20px rgba(255, 180, 0, 0.3);
+    max-width: 400px;
+    text-align: center;
+  }
+
+  #modalContent p {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  #modalContent button {
+    background: var(--accent-color);
+    border: none;
+    padding: 10px 18px;
+    font-size: 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  @media (max-width: 600px) {
     .product-card {
-      background: #aaf1f1;
-      border-radius: 16px;
-      width: 280px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      padding: 20px;
-      backdrop-filter: blur(8px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 15px;
     }
-
-    .product-card:hover {
-      transform: scale(1.05) rotateY(8deg);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .product-card img {
-      width: 100%;
-      border-radius: 12px;
-    }
-
     .product-card h3 {
-      margin: 10px 0 5px;
-      color: #1a1a1a;
-    }
-
-    .product-card p {
-      font-size: 14px;
-      color: #555;
-      min-height: 50px;
-    }
-
-    .price {
       font-size: 18px;
-      color: #0077cc;
-      margin: 10px 0;
     }
-
-    .buy-btn {
-      background: #0077cc;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
+    .product-card .description {
+      font-size: 14px;
     }
-
-    .buy-btn:hover {
-      background: #7ec0f0;
+    #modalContent {
+      width: 90%;
     }
+  }
   </style>
-
-  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <header>متجر ضاهر رقمي</header>
-  <main>
-    <div class="products">
-      <% products.forEach(product => { %>
-        <div class="product-card">
-          <img src="<%= product.image %>" alt="صوره" />
-          <h3><%= product.title %></h3>
-          <p><%= product.description %></p>
-          <div class="price"><%= product.price %> $</div>
-          <button class="buy-btn" data-product-id="<%= product.id %>">شراء الآن</button>
-        </div>
-      <% }); %>
+
+  <header>متجر ضاهر الرقمي</header>
+
+  <input type="search" id="searchInput" placeholder="ابحث عن منتج أو وصف..." autocomplete="off" />
+  <div id="categories"></div>
+  <main id="productsContainer"></main>
+
+  <button id="scrollTopBtn" aria-label="عودة للأعلى" title="عودة للأعلى">↑</button>
+
+  <div id="modalOverlay" aria-hidden="true">
+    <div id="modalContent" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <p id="modalTitle">هل أنت متأكد من رغبتك في شراء المنتج؟</p>
+      <div style="display:flex; justify-content:center; gap:20px;">
+        <button id="confirmBuyBtn">تأكيد الشراء</button>
+        <button id="cancelBuyBtn">إلغاء</button>
+      </div>
     </div>
-  </main>
+  </div>
 
   <script>
     const stripe = Stripe('pk_test_51RT8oO4Fl0WramqBEk8Ld2ZVIe7Y3jVYLEPERP4AsOEqLdKDFFkFVChcyDe4VesgV84Wn8Gw9Stz682tIpy81BVA00BxY2WrL4');
 
-    document.querySelectorAll('.buy-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const productId = button.getAttribute('data-product-id');
-        fetch('/create-checkout-session', {
+    let products = [];
+    let filteredProducts = [];
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    const productsContainer = document.getElementById('productsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const categoriesDiv = document.getElementById('categories');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const confirmBuyBtn = document.getElementById('confirmBuyBtn');
+    const cancelBuyBtn = document.getElementById('cancelBuyBtn');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    let productToBuy = null;
+
+    async function fetchProducts() {
+      try {
+        const res = await fetch('/api/products');
+        if (!res.ok) throw new Error('فشل جلب المنتجات');
+        const data = await res.json();
+        products = data;
+        filteredProducts = [...products];
+        renderCategories();
+        renderProducts();
+      } catch (err) {
+        productsContainer.innerHTML = '<p style="text-align:center;color:#444;font-size:18px;margin-top:40px;">حدث خطأ في جلب المنتجات.</p>';
+        console.error(err);
+      }
+    }
+
+    function renderCategories() {
+      const cats = [...new Set(products.map(p => p.category))];
+      categoriesDiv.innerHTML = '';
+
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'الكل';
+      allBtn.classList.add('active');
+      allBtn.addEventListener('click', () => {
+        filteredProducts = [...products];
+        updateActiveCategory(allBtn);
+        renderProducts();
+      });
+      categoriesDiv.appendChild(allBtn);
+
+      cats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.textContent = cat;
+        btn.addEventListener('click', () => {
+          filteredProducts = products.filter(p => p.category === cat);
+          updateActiveCategory(btn);
+          renderProducts();
+        });
+        categoriesDiv.appendChild(btn);
+      });
+    }
+
+    function updateActiveCategory(activeBtn) {
+      [...categoriesDiv.children].forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+
+    function renderProducts() {
+      productsContainer.innerHTML = '';
+
+      if (filteredProducts.length === 0) {
+        productsContainer.innerHTML = '<p style="text-align:center;color:#444;font-size:18px;margin-top:40px;">لا توجد منتجات مطابقة.</p>';
+        return;
+      }
+
+      filteredProducts.forEach(product => {
+        const card = document.createElement('article');
+        card.className = 'product-card';
+
+        const ratingStars = '⭐'.repeat(product.rating || 0) + '☆'.repeat(5 - (product.rating || 0));
+
+        card.innerHTML = `
+          <button aria-label="إضافة/إزالة من المفضلة" class="fav-btn" data-id="${product.id}">${favorites.includes(product.id.toString()) ? '❤️' : '🤍'}</button>
+          <h3>${product.title}</h3>
+          <p class="description">${product.description}</p>
+          <div class="rating">${ratingStars}</div>
+          <div class="price">${parseFloat(product.price).toFixed(2)} $</div>
+          <button class="buy-btn" data-id="${product.id}" aria-label="شراء ${product.title}">اشتري الآن</button>
+        `;
+
+        productsContainer.appendChild(card);
+      });
+    }
+
+    productsContainer.addEventListener('click', e => {
+      if (e.target.classList.contains('fav-btn')) {
+        const id = e.target.getAttribute('data-id');
+        if (favorites.includes(id)) {
+          favorites = favorites.filter(f => f !== id);
+          e.target.textContent = '🤍';
+        } else {
+          favorites.push(id);
+          e.target.textContent = '❤️';
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      } else if (e.target.classList.contains('buy-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const product = products.find(p => p.id.toString() === id);
+        if (!product) return;
+        productToBuy = product;
+        modalOverlay.style.display = 'flex';
+      }
+    });
+
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.trim().toLowerCase();
+      filteredProducts = products.filter(p =>
+        p.title.toLowerCase().includes(term) || (p.description && p.description.toLowerCase().includes(term))
+      );
+      updateActiveCategory(categoriesDiv.children[0]);
+      renderProducts();
+    });
+
+    cancelBuyBtn.addEventListener('click', () => {
+      modalOverlay.style.display = 'none';
+      productToBuy = null;
+    });
+
+    confirmBuyBtn.addEventListener('click', async () => {
+      if (!productToBuy) return;
+      modalOverlay.style.display = 'none';
+
+      // إذا كان سعر المنتج 0 → عرض رابط التحميل مباشرة
+      if (parseFloat(productToBuy.price) === 0) {
+        try {
+          const res = await fetch(`/free-download-link/${productToBuy.id}`);
+          const data = await res.json();
+          if (data && data.url) {
+            window.open(data.url, '_blank');
+          } else {
+            alert('تعذر الحصول على رابط التحميل المجاني.');
+          }
+        } catch (err) {
+          alert('حدث خطأ أثناء جلب رابط التحميل: ' + err.message);
+        }
+        return;
+      }
+
+      // إذا السعر > 0 → Stripe Checkout
+      try {
+        const res = await fetch('/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productId })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.error) {
-            alert(data.error);
-          } else {
-            return stripe.redirectToCheckout({ sessionId: data.id });
-          }
-        })
-        .then(result => {
-          if (result && result.error) {
+          body: JSON.stringify({ productId: productToBuy.id })
+        });
+        const data = await res.json();
+
+        if (data.id) {
+          const result = await stripe.redirectToCheckout({ sessionId: data.id });
+          if (result.error) {
             alert(result.error.message);
           }
-        })
-        .catch(err => alert('حدث خطأ: ' + err.message));
-      });
+        } else {
+          alert('حدث خطأ أثناء إنشاء جلسة الدفع.');
+        }
+      } catch (err) {
+        alert('حدث خطأ في الاتصال: ' + err.message);
+      }
     });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('show');
+      } else {
+        scrollTopBtn.classList.remove('show');
+      }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    fetchProducts();
   </script>
 </body>
 </html>

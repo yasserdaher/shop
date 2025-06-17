@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تعديل المنتج</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #007bff;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 80px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h2>تعديل المنتج</h2>
+  <form method="POST" action="/admin/products/edit/<%= product.id %>">
+    <label>عنوان المنتج:</label>
+    <input type="text" name="title" value="<%= product.title %>" required />
+
+    <label>وصف المنتج:</label>
+    <textarea name="description" required><%= product.description %></textarea>
+
+    <label>السعر ($):</label>
+    <input type="number" step="0.01" name="price" value="<%= product.price %>" required />
+
+    <label>رابط صورة المنتج:</label>
+    <input type="text" name="image" value="<%= product.image %>" required />
+
+    <label>رابط تحميل المنتج:</label>
+    <input type="text" name="download_link" value="<%= product.download_link %>" required />
+
+    <button type="submit">تعديل المنتج</button>
+  </form>
+  <a href="/admin">عودة إلى لوحة التحكم</a>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>لوحة تحكم الأدمن | My Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #202942;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #202942;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #f0f2f5;
+      color: #202942;
+    }
+
+    img {
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    a.button, button {
+      background-color: #202942;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    a.button:hover, button:hover {
+      background-color: #3a4a6b;
+      cursor: pointer;
+    }
+
+    form {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>مرحباً، <%= admin.username %></h1>
+    <nav>
+      <a href="/admin/products/add">➕ إضافة منتج</a>
+      <a href="/">🏠 المتجر</a>
+      <a href="/logout">🚪 تسجيل خروج</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🛠️ إدارة المنتجات</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>العنوان</th>
+          <th>الوصف</th>
+          <th>السعر</th>
+          <th>الصورة</th>
+          <th>رابط التحميل</th>
+          <th>التحكم</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(product => { %>
+          <tr>
+            <td><%= product.title %></td>
+            <td><%= product.description %></td>
+            <td><%= product.price %> $</td>
+            <td><img src="<%= product.image %>" alt="صورة المنتج" width="80" /></td>
+            <td><a class="button" href="<%= product.download_link %>" target="_blank">تحميل</a></td>
+            <td>
+              <a class="button" href="/admin/products/edit/<%= product.id %>">تعديل</a>
+              <form method="POST" action="/admin/products/delete/<%= product.id %>" onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
+                <button type="submit">حذف</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

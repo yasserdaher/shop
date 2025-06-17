@@ -7,11 +7,12 @@
     "start": "node server.js"
   },
   "dependencies": {
-  "body-parser": "^1.20.2",
-  "dotenv": "^16.0.0",
-  "ejs": "^3.1.9",
-  "express": "^4.18.2",
-  "express-session": "^1.17.3",
-  "sqlite3": "^5.1.6",
-  "stripe": "^12.9.0"
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "sqlite3": "^5.1.6",
+    "stripe": "^12.18.0"
+  }
 }

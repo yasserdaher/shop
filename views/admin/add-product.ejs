@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>إضافة منتج جديد | لوحة التحكم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #202942;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.06);
+      border-radius: 12px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #202942;
+      margin-bottom: 30px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #202942;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    form textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #202942;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #3a4a6b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>إضافة منتج جديد</h1>
+    <nav>
+      <a href="/admin/dashboard">لوحة التحكم</a>
+      <a href="/logout">تسجيل خروج</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>📝 أدخل بيانات المنتج</h2>
+    <form action="/admin/products/add" method="POST">
+      <label for="title">عنوان المنتج</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">وصف المنتج</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="price">السعر (بالدولار)</label>
+      <input type="number" id="price" name="price" step="0.01" required>
+
+      <label for="image">رابط صورة المنتج</label>
+      <input type="text" id="image" name="image" required>
+
+      <label for="download_link">رابط التحميل بعد الشراء</label>
+      <input type="text" id="download_link" name="download_link" required>
+
+      <button type="submit">➕ إضافة المنتج</button>
+    </form>
+  </main>
+</body>
+</html>

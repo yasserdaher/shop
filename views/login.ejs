@@ -1,10 +1,82 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<title>تسجيل دخول الأدمن</title>
-<link rel="stylesheet" href="/css/style.css" />
+  <meta charset="UTF-8" />
+  <title>تسجيل دخول الأدمن</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #e6f0ff, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #202942;
+    }
+
+    label {
+      display: block;
+      text-align: right;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #202942;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #3a4a6b;
+    }
+
+    .error {
+      background-color: #ffe5e5;
+      color: #c0392b;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #c0392b;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="login-container">
@@ -13,10 +85,12 @@
       <p class="error"><%= error %></p>
     <% } %>
     <form method="POST" action="/login">
-      <label>اسم المستخدم:</label>
-      <input type="text" name="username" required />
-      <label>كلمة المرور:</label>
-      <input type="password" name="password" required />
+      <label for="username">اسم المستخدم:</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">كلمة المرور:</label>
+      <input type="password" id="password" name="password" required />
+
       <button type="submit">دخول</button>
     </form>
   </div>
